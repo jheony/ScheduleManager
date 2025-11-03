@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -27,6 +27,15 @@ public class Schedule {
     @Column(length = 20, nullable = false)
     private String password;
 
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public Schedule(String title, String content, String author, String password) {
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.password = password;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
+    }
 }
