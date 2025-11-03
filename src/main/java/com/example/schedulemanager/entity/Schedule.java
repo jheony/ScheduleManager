@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -27,7 +29,10 @@ public class Schedule {
     @Column(length = 20, nullable = false)
     private String password;
 
+    @CreatedDate
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     public Schedule(String title, String content, String author, String password) {
@@ -35,7 +40,5 @@ public class Schedule {
         this.content = content;
         this.author = author;
         this.password = password;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = this.createdAt;
     }
 }
