@@ -22,4 +22,9 @@ public class ScheduleController {
     public List<ScheduleResponse> getAllSchedule(@RequestParam(required = false) String author) {
         return scheduleService.getAllSchedules(author);
     }
+
+    @GetMapping("/schedules/{id}")
+    public ScheduleResponse getOneSchedule(@PathVariable Long id){
+        return scheduleService.getOneSchedule(id);
+    }
 }
