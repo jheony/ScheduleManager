@@ -1,6 +1,7 @@
 package com.example.schedulemanager.service;
 
 import com.example.schedulemanager.dto.CreateRequest;
+import com.example.schedulemanager.dto.DeleteRequest;
 import com.example.schedulemanager.dto.ScheduleResponse;
 import com.example.schedulemanager.dto.UpdateRequest;
 import com.example.schedulemanager.entity.Schedule;
@@ -72,5 +73,16 @@ public class ScheduleService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
         return new ScheduleResponse(schedule);
+    }
+
+    // 선택 일정 삭제
+    @Transactional
+    public void deleteOneSchedule(Long id, DeleteRequest request) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+
+        if (schedule.getPassword().equals(request.getPassword())) {
+            scheduleRepository.deleteById(id);
+        }
     }
 }

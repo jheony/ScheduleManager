@@ -1,6 +1,7 @@
 package com.example.schedulemanager.controller;
 
 import com.example.schedulemanager.dto.CreateRequest;
+import com.example.schedulemanager.dto.DeleteRequest;
 import com.example.schedulemanager.dto.ScheduleResponse;
 import com.example.schedulemanager.dto.UpdateRequest;
 import com.example.schedulemanager.service.ScheduleService;
@@ -36,5 +37,11 @@ public class ScheduleController {
     @PatchMapping("/schedules/{id}")
     public ScheduleResponse updateSchedule(@PathVariable Long id, @RequestBody UpdateRequest request){
         return scheduleService.updateSchedule(id, request);
+    }
+
+    // 선택 일정 삭제
+    @DeleteMapping("/schedules/{id}")
+    public void deleteOneSchedule(@PathVariable Long id, @RequestBody DeleteRequest request){
+        scheduleService.deleteOneSchedule(id, request);
     }
 }
