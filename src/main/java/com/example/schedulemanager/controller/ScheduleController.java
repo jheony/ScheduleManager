@@ -2,6 +2,7 @@ package com.example.schedulemanager.controller;
 
 import com.example.schedulemanager.dto.CreateRequest;
 import com.example.schedulemanager.dto.ScheduleResponse;
+import com.example.schedulemanager.dto.UpdateRequest;
 import com.example.schedulemanager.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +27,10 @@ public class ScheduleController {
     @GetMapping("/schedules/{id}")
     public ScheduleResponse getOneSchedule(@PathVariable Long id){
         return scheduleService.getOneSchedule(id);
+    }
+
+    @PatchMapping("/schedules/{id}")
+    public ScheduleResponse updateSchedule(@PathVariable Long id, @RequestBody UpdateRequest request){
+        return scheduleService.updateSchedule(id, request);
     }
 }

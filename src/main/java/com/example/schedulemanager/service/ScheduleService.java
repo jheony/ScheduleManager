@@ -2,6 +2,7 @@ package com.example.schedulemanager.service;
 
 import com.example.schedulemanager.dto.CreateRequest;
 import com.example.schedulemanager.dto.ScheduleResponse;
+import com.example.schedulemanager.dto.UpdateRequest;
 import com.example.schedulemanager.entity.Schedule;
 import com.example.schedulemanager.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class ScheduleService {
         );
         scheduleRepository.save(schedule);
 
-        return new ScheduleResponse( schedule);
+        return new ScheduleResponse(schedule);
     }
 
     // 일정 전체 조회
@@ -50,8 +51,25 @@ public class ScheduleService {
     }
 
     // 선택 일정 조회
+    @Transactional
     public ScheduleResponse getOneSchedule(Long id) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalStateException("없는 유저입니다."));
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+        return new ScheduleResponse(schedule);
+    }
+
+    @Transactional
+    public ScheduleResponse updateSchedule(Long id, UpdateRequest request) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+
+        // 비밀번호 검증 후 일정 수정
+        if (schedule.getPassword().equals(request.getPassword())) {
+            schedule.setTitle(request.getTitle());
+            schedule.setAuthor(request.getAuthor());
+
+            schedule = scheduleRepository.save(schedule);
+        } else {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
         return new ScheduleResponse(schedule);
     }
 }
