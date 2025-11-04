@@ -21,7 +21,7 @@ public class ScheduleController {
 
     @GetMapping("/schedules")
     public List<ScheduleResponse> getAllSchedule(@RequestParam(required = false) String author) {
-        return scheduleService.getAllByAuthor(author);
+        return scheduleService.getAllSchedules(author);
     }
 
 }

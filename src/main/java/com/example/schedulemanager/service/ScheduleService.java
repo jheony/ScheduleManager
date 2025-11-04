@@ -39,13 +39,15 @@ public class ScheduleService {
         );
     }
 
-    //
+    // 일정 전체 조회
     @Transactional
-    public List<ScheduleResponse> getAllByAuthor(String author) {
+    public List<ScheduleResponse> getAllSchedules(String author) {
 
+        // 작성자 값이 있으면 필터링 조회 없으면 전체 조회
         List<Schedule> scheduleList = new ArrayList<>(
                 (author == null) ? scheduleRepository.findAll() : scheduleRepository.findByAuthor(author));
 
+        // 조회된 Schedule리스트를 response (dto) 리스트로 변환
         List<ScheduleResponse> scheduleResponseList = new ArrayList<>();
         scheduleList.forEach(schedule -> scheduleResponseList.add(
                 new ScheduleResponse(
