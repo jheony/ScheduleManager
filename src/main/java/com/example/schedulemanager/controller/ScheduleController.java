@@ -22,5 +22,4 @@ public class ScheduleController {
     public List<ScheduleResponse> getAllSchedule(@RequestParam(required = false) String author) {
         return scheduleService.getAllSchedules(author);
     }
-
 }
