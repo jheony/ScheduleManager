@@ -1,7 +1,6 @@
 package com.example.schedulemanager.service;
 
 import com.example.schedulemanager.dto.CreateRequest;
-import com.example.schedulemanager.dto.CreateResponse;
 import com.example.schedulemanager.dto.ScheduleResponse;
 import com.example.schedulemanager.entity.Schedule;
 import com.example.schedulemanager.repository.ScheduleRepository;
@@ -19,7 +18,7 @@ public class ScheduleService {
 
     // 일정 생성
     @Transactional
-    public CreateResponse create(CreateRequest request) {
+    public ScheduleResponse create(CreateRequest request) {
 
         Schedule schedule = new Schedule(
                 request.getTitle(),
@@ -29,14 +28,7 @@ public class ScheduleService {
         );
         scheduleRepository.save(schedule);
 
-        return new CreateResponse(
-                schedule.getId(),
-                schedule.getTitle(),
-                schedule.getContent(),
-                schedule.getAuthor(),
-                schedule.getCreatedAt(),
-                schedule.getUpdatedAt()
-        );
+        return new ScheduleResponse( schedule);
     }
 
     // 일정 전체 조회
@@ -50,17 +42,16 @@ public class ScheduleService {
         // 조회된 Schedule리스트를 response (dto) 리스트로 변환
         List<ScheduleResponse> scheduleResponseList = new ArrayList<>();
         scheduleList.forEach(schedule -> scheduleResponseList.add(
-                new ScheduleResponse(
-                        schedule.getId(),
-                        schedule.getTitle(),
-                        schedule.getContent(),
-                        schedule.getAuthor(),
-                        schedule.getCreatedAt(),
-                        schedule.getUpdatedAt()
-                )));
+                new ScheduleResponse(schedule)));
 
         // 수정일 기준 내림차순 정렬
         return scheduleResponseList.stream()
                 .sorted((o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt())).toList();
+    }
+
+    // 선택 일정 조회
+    public ScheduleResponse getOneSchedule(Long id) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalStateException("없는 유저입니다."));
+        return new ScheduleResponse(schedule);
     }
 }

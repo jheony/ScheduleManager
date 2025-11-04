@@ -1,7 +1,6 @@
 package com.example.schedulemanager.controller;
 
 import com.example.schedulemanager.dto.CreateRequest;
-import com.example.schedulemanager.dto.CreateResponse;
 import com.example.schedulemanager.dto.ScheduleResponse;
 import com.example.schedulemanager.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public CreateResponse create(@RequestBody CreateRequest request) {
+    public ScheduleResponse create(@RequestBody CreateRequest request) {
         return scheduleService.create(request);
     }
 
