@@ -17,6 +17,7 @@ import java.util.List;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
+    // 일정 생성
     @Transactional
     public CreateResponse create(CreateRequest request) {
 
@@ -38,35 +39,26 @@ public class ScheduleService {
         );
     }
 
+    //
     @Transactional
     public List<ScheduleResponse> getAllByAuthor(String author) {
-        List<ScheduleResponse> scheduleList = new ArrayList<>();
 
-        if (author == null) {
-            scheduleRepository.findAll().forEach(schedule -> scheduleList.add(new ScheduleResponse(
-                    schedule.getId(),
-                    schedule.getTitle(),
-                    schedule.getContent(),
-                    schedule.getAuthor(),
-                    schedule.getCreatedAt(),
-                    schedule.getUpdatedAt()
-            )));
-        } else {
-            scheduleRepository.findAll().stream()
-                    .filter(schedule -> schedule.getAuthor().equals(author))
-                    .forEach(schedule -> scheduleList.add(new ScheduleResponse(
-                                    schedule.getId(),
-                                    schedule.getTitle(),
-                                    schedule.getContent(),
-                                    schedule.getAuthor(),
-                                    schedule.getCreatedAt(),
-                                    schedule.getUpdatedAt()
-                            ))
-                    );
-        }
+        List<Schedule> scheduleList = new ArrayList<>(
+                (author == null) ? scheduleRepository.findAll() : scheduleRepository.findByAuthor(author));
+
+        List<ScheduleResponse> scheduleResponseList = new ArrayList<>();
+        scheduleList.forEach(schedule -> scheduleResponseList.add(
+                new ScheduleResponse(
+                        schedule.getId(),
+                        schedule.getTitle(),
+                        schedule.getContent(),
+                        schedule.getAuthor(),
+                        schedule.getCreatedAt(),
+                        schedule.getUpdatedAt()
+                )));
 
         // 수정일 기준 내림차순 정렬
-        return scheduleList.stream()
+        return scheduleResponseList.stream()
                 .sorted((o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt())).toList();
     }
 }
