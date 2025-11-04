@@ -1,9 +1,9 @@
 package com.example.schedulemanager.controller;
 
-import com.example.schedulemanager.dto.CreateRequest;
-import com.example.schedulemanager.dto.DeleteRequest;
+import com.example.schedulemanager.dto.CreateScheduleRequest;
+import com.example.schedulemanager.dto.DeleteScheduleRequest;
 import com.example.schedulemanager.dto.ScheduleResponse;
-import com.example.schedulemanager.dto.UpdateRequest;
+import com.example.schedulemanager.dto.UpdateScheduleRequest;
 import com.example.schedulemanager.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class ScheduleController {
 
     // 일정 생성
     @PostMapping("/schedules")
-    public ScheduleResponse create(@RequestBody CreateRequest request) {
+    public ScheduleResponse create(@RequestBody CreateScheduleRequest request) {
         return scheduleService.create(request);
     }
 
@@ -35,13 +35,13 @@ public class ScheduleController {
 
     // 선택 일정 수정
     @PatchMapping("/schedules/{id}")
-    public ScheduleResponse updateSchedule(@PathVariable Long id, @RequestBody UpdateRequest request){
+    public ScheduleResponse updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequest request){
         return scheduleService.updateSchedule(id, request);
     }
 
     // 선택 일정 삭제
     @DeleteMapping("/schedules/{id}")
-    public void deleteOneSchedule(@PathVariable Long id, @RequestBody DeleteRequest request){
+    public void deleteOneSchedule(@PathVariable Long id, @RequestBody DeleteScheduleRequest request){
         scheduleService.deleteOneSchedule(id, request);
     }
 }

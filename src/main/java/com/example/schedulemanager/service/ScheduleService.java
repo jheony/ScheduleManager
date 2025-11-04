@@ -1,9 +1,9 @@
 package com.example.schedulemanager.service;
 
-import com.example.schedulemanager.dto.CreateRequest;
-import com.example.schedulemanager.dto.DeleteRequest;
+import com.example.schedulemanager.dto.CreateScheduleRequest;
+import com.example.schedulemanager.dto.DeleteScheduleRequest;
 import com.example.schedulemanager.dto.ScheduleResponse;
-import com.example.schedulemanager.dto.UpdateRequest;
+import com.example.schedulemanager.dto.UpdateScheduleRequest;
 import com.example.schedulemanager.entity.Schedule;
 import com.example.schedulemanager.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class ScheduleService {
 
     // 일정 생성
     @Transactional
-    public ScheduleResponse create(CreateRequest request) {
+    public ScheduleResponse create(CreateScheduleRequest request) {
 
         Schedule schedule = new Schedule(
                 request.getTitle(),
@@ -60,7 +60,7 @@ public class ScheduleService {
 
     // 선택 일정 조회
     @Transactional
-    public ScheduleResponse updateSchedule(Long id, UpdateRequest request) {
+    public ScheduleResponse updateSchedule(Long id, UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
 
         // 비밀번호 검증 후 일정 수정
@@ -77,7 +77,7 @@ public class ScheduleService {
 
     // 선택 일정 삭제
     @Transactional
-    public void deleteOneSchedule(Long id, DeleteRequest request) {
+    public void deleteOneSchedule(Long id, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
 
