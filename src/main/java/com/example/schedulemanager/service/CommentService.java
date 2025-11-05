@@ -23,14 +23,19 @@ public class CommentService {
         Schedule schedule = scheduleRepository
                 .findById(scheduleId).orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
 
-        Comment comment = new Comment(
-                request.getContent(),
-                request.getAuthor(),
-                request.getPassword(),
-                schedule
-        );
-        commentRepository.save(comment);
+        int count = commentRepository.countBySchedule(schedule);
+        if (count > 10) {
+            throw new IllegalStateException("하나의 일정에는 댓글을 10개까지만 작성할 수 있습니다.");
+        } else {
+            Comment comment = new Comment(
+                    request.getContent(),
+                    request.getAuthor(),
+                    request.getPassword(),
+                    schedule
+            );
+            commentRepository.save(comment);
 
-        return new CommentResponse(comment);
+            return new CommentResponse(comment);
+        }
     }
 }

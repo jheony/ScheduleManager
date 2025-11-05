@@ -54,7 +54,8 @@ public class ScheduleService {
     // 선택 일정 조회
     @Transactional
     public ScheduleResponse getOneSchedule(Long id) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
         return new ScheduleResponse(schedule);
     }
 
