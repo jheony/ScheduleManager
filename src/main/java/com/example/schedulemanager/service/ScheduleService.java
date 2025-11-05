@@ -3,6 +3,7 @@ package com.example.schedulemanager.service;
 import com.example.schedulemanager.dto.*;
 import com.example.schedulemanager.entity.Comment;
 import com.example.schedulemanager.entity.Schedule;
+import com.example.schedulemanager.exception.CustomException;
 import com.example.schedulemanager.repository.CommentRepository;
 import com.example.schedulemanager.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.schedulemanager.exception.CustomExceptionCode.INVALID_PASSWORD;
+import static com.example.schedulemanager.exception.CustomExceptionCode.SCHEDULE_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
@@ -55,7 +59,7 @@ public class ScheduleService {
     @Transactional
     public ReadOneScheduleResponse getOneSchedule(Long id) {
         Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+                .orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
 
         // 일정에 등록된 댓글 조회
         List<Comment> comments = new ArrayList<>(commentRepository.findBySchedule(schedule));
@@ -63,10 +67,10 @@ public class ScheduleService {
         return new ReadOneScheduleResponse(schedule, comments);
     }
 
-    // 선택 일정 조회
+    // 선택 일정 수정
     @Transactional
     public ScheduleResponse updateSchedule(Long id, UpdateScheduleRequest request) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
 
         // 비밀번호 검증 후 일정 수정
         if (schedule.getPassword().equals(request.getPassword())) {
@@ -75,7 +79,7 @@ public class ScheduleService {
 
             schedule = scheduleRepository.save(schedule);
         } else {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(INVALID_PASSWORD);
         }
         return new ScheduleResponse(schedule);
     }
@@ -84,10 +88,12 @@ public class ScheduleService {
     @Transactional
     public void deleteOneSchedule(Long id, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+                .orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
 
         if (schedule.getPassword().equals(request.getPassword())) {
             scheduleRepository.deleteById(id);
+        } else {
+            throw new CustomException(INVALID_PASSWORD);
         }
     }
 }
