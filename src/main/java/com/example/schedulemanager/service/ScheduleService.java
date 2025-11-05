@@ -1,10 +1,9 @@
 package com.example.schedulemanager.service;
 
-import com.example.schedulemanager.dto.CreateScheduleRequest;
-import com.example.schedulemanager.dto.DeleteScheduleRequest;
-import com.example.schedulemanager.dto.ScheduleResponse;
-import com.example.schedulemanager.dto.UpdateScheduleRequest;
+import com.example.schedulemanager.dto.*;
+import com.example.schedulemanager.entity.Comment;
 import com.example.schedulemanager.entity.Schedule;
+import com.example.schedulemanager.repository.CommentRepository;
 import com.example.schedulemanager.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository;
 
     // 일정 생성
     @Transactional
@@ -53,10 +53,14 @@ public class ScheduleService {
 
     // 선택 일정 조회
     @Transactional
-    public ScheduleResponse getOneSchedule(Long id) {
+    public ReadOneScheduleResponse getOneSchedule(Long id) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
-        return new ScheduleResponse(schedule);
+
+        // 일정에 등록된 댓글 조회
+        List<Comment> comments = new ArrayList<>(commentRepository.findBySchedule(schedule));
+
+        return new ReadOneScheduleResponse(schedule, comments);
     }
 
     // 선택 일정 조회

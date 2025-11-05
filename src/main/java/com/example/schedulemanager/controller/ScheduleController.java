@@ -1,9 +1,6 @@
 package com.example.schedulemanager.controller;
 
-import com.example.schedulemanager.dto.CreateScheduleRequest;
-import com.example.schedulemanager.dto.DeleteScheduleRequest;
-import com.example.schedulemanager.dto.ScheduleResponse;
-import com.example.schedulemanager.dto.UpdateScheduleRequest;
+import com.example.schedulemanager.dto.*;
 import com.example.schedulemanager.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +26,7 @@ public class ScheduleController {
 
     // 선택 일정 단건 조회
     @GetMapping("/schedules/{id}")
-    public ScheduleResponse getOneSchedule(@PathVariable Long id){
+    public ReadOneScheduleResponse getOneSchedule(@PathVariable Long id){
         return scheduleService.getOneSchedule(id);
     }
 
