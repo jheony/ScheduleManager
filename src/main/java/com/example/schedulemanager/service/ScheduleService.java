@@ -86,12 +86,18 @@ public class ScheduleService {
 
     // 선택 일정 삭제
     @Transactional
-    public void deleteOneSchedule(Long id, DeleteScheduleRequest request) {
+    public ScheduleResponse deleteOneSchedule(Long id, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
 
+        // 비밀번호 검증
         if (schedule.getPassword().equals(request.getPassword())) {
+
+            // 해당 일정에 등록된 댓글 먼저 삭제
+            commentRepository.deleteBySchedule(schedule);
+            // 일정 삭제
             scheduleRepository.deleteById(id);
+            return new ScheduleResponse(schedule);
         } else {
             throw new CustomException(INVALID_PASSWORD);
         }

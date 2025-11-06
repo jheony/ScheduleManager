@@ -9,5 +9,4 @@ public class CustomException extends RuntimeException {
     public CustomException(CustomExceptionCode customExceptionCode){
         this.customExceptionCode = customExceptionCode;
     }
-
 }

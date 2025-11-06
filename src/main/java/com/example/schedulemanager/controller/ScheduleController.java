@@ -39,7 +39,7 @@ public class ScheduleController {
 
     // 선택 일정 삭제
     @DeleteMapping("/schedules/{id}")
-    public void deleteOneSchedule(@PathVariable Long id, @Valid @RequestBody DeleteScheduleRequest request) {
-        scheduleService.deleteOneSchedule(id, request);
+    public ScheduleResponse deleteOneSchedule(@PathVariable Long id, @Valid @RequestBody DeleteScheduleRequest request) {
+        return scheduleService.deleteOneSchedule(id, request);
     }
 }
