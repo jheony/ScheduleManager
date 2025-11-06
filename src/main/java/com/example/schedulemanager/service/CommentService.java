@@ -4,11 +4,15 @@ import com.example.schedulemanager.dto.CommentResponse;
 import com.example.schedulemanager.dto.CreateCommentRequest;
 import com.example.schedulemanager.entity.Comment;
 import com.example.schedulemanager.entity.Schedule;
+import com.example.schedulemanager.exception.CustomException;
 import com.example.schedulemanager.repository.CommentRepository;
 import com.example.schedulemanager.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.example.schedulemanager.exception.CustomExceptionCode.COMMENT_LIMIT_EXCEED;
+import static com.example.schedulemanager.exception.CustomExceptionCode.SCHEDULE_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
@@ -21,11 +25,11 @@ public class CommentService {
     public CommentResponse create(Long scheduleId, CreateCommentRequest request) {
         // 일정 존재 확인
         Schedule schedule = scheduleRepository
-                .findById(scheduleId).orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
+                .findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
 
         int count = commentRepository.countBySchedule(schedule);
-        if (count > 10) {
-            throw new IllegalStateException("하나의 일정에는 댓글을 10개까지만 작성할 수 있습니다.");
+        if (count >= 10) {
+            throw new CustomException(COMMENT_LIMIT_EXCEED);
         } else {
             Comment comment = new Comment(
                     request.getContent(),
