@@ -75,7 +75,8 @@
 
 ### API 명세서
   - [Postman API](https://documenter.getpostman.com/view/49692886/2sB3WpRgVH)
-    <p align-"center"><img width="2412" height="856" alt="image" src="https://github.com/user-attachments/assets/db13e31e-0177-42de-b155-e36da3fc0fff" /></p>
+    <p align-"center"><img width="2416" height="1085" alt="image" src="https://github.com/user-attachments/assets/0ff25f8a-f6a4-4744-b29c-e1ba44e39b75" />
+</p>
 ### ERD
 
 <p align="center"><img width="827" height="285" alt="스크린샷 2025-11-04 143505" src="https://github.com/user-attachments/assets/7a84e26e-a99d-490e-b3c1-84c55a7c2426" /></p>
