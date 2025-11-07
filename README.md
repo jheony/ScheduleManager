@@ -1,16 +1,16 @@
 # 일정 관리 API
 --- 
-- Spring Boot와 JPA를 사용하여 일정 및 댓글 관리가 가능한 REST API를 구현한 프로젝트입니다. 
+Spring Boot와 JPA를 사용하여 일정 및 댓글 관리가 가능한 REST API를 구현한 프로젝트입니다. 
 
 ## 목차
 1. [프로젝트 개요](#프로젝트-개요)
- - 주요 기능
- - 주요 기술 스택
+   - 주요 기능
+   - 주요 기술 스택
 
 2. [산출물](#산출물)
- - 기능 명세서
- - API
- - ERD
+   - 기능 명세서
+   - API
+   - ERD
 
 3. [결과물](#프로젝트-결과물)
 
@@ -75,8 +75,8 @@
 
 ### API 명세서
   - [Postman API](https://documenter.getpostman.com/view/49692886/2sB3WpRgVH)
-    <p align-"center"><img width="2416" height="1085" alt="image" src="https://github.com/user-attachments/assets/0ff25f8a-f6a4-4744-b29c-e1ba44e39b75" />
-</p>
+    <p align-"center"><img width="2416" height="1085" alt="image" src="https://github.com/user-attachments/assets/0ff25f8a-f6a4-4744-b29c-e1ba44e39b75" /></p>
+
 ### ERD
 
 <p align="center"><img width="827" height="285" alt="스크린샷 2025-11-04 143505" src="https://github.com/user-attachments/assets/7a84e26e-a99d-490e-b3c1-84c55a7c2426" /></p>
